@@ -129,14 +129,54 @@ TEST_CASE("Comparison works for different size positive integers.") {
   REQUIRE_FALSE(int1 == int2);
   REQUIRE(int1 != int2);
 }
-
 TEST_CASE("Comparison works for rvalues") {
   BigInt int1(std::numeric_limits<ull>::max());
   REQUIRE_FALSE(int1 == BigInt(9));
   REQUIRE(int1 != BigInt(9));
-  REQUIRE_FALSE( BigInt(9) == int1);
-  REQUIRE( BigInt(9) != int1);
+  REQUIRE_FALSE(BigInt(9) == int1);
+  REQUIRE(BigInt(9) != int1);
 
-  REQUIRE_FALSE( BigInt(9) == BigInt(99234));
-  REQUIRE( BigInt(9) != BigInt(9231));
+  REQUIRE_FALSE(BigInt(9) == BigInt(99234));
+  REQUIRE(BigInt(9) != BigInt(9231));
+}
+
+TEST_CASE("Bigger than works for positive and negative numbers.") {
+  BigInt negative1(-1567);
+  std::cout<<negative1<<std::endl;
+  BigInt negative1_copy = negative1;
+  BigInt negative2(-67234);
+
+  BigInt positive1(123);
+  BigInt positive1_copy = positive1;
+  BigInt positive2(98625373);
+
+  BigInt zero(0);
+  BigInt largePositiveNumber;
+  vector<ull> tempNums{75, 876324};
+  largePositiveNumber.fullInteger_ = tempNums;
+  BigInt largePositiveNumberCopy(largePositiveNumber);
+
+
+  SECTION("Negative number comparisons."){
+    REQUIRE(negative1 == negative1_copy);
+    REQUIRE(negative1 >= negative1_copy);
+    REQUIRE(negative1 <= negative1_copy);
+    REQUIRE_FALSE(negative1<negative1_copy);
+    REQUIRE_FALSE(negative1>negative1_copy);
+    REQUIRE(negative1>negative2);
+    REQUIRE(negative2<negative1);
+    REQUIRE(negative1>=negative2);
+    REQUIRE(negative2<=negative2);
+  }
+
+
+  //REQUIRE(int2 > int1);
+  //REQUIRE(int2 >= int1);
+  //REQUIRE(int1 < int2);
+  //REQUIRE(int1 <= int2);
+  //REQUIRE_FALSE(int1 > int2);
+  //REQUIRE_FALSE(int1 >= int2);
+  //REQUIRE_FALSE(int2 < int1);
+  //REQUIRE_FALSE(int2 <= int1);
+
 }

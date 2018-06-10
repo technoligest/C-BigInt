@@ -3,6 +3,7 @@ project(BigInt2)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(BigInt2 main.cpp BigInt.cc BigInt.h tests/mainTest.cc tests/testOperations.cc)
+add_executable(BigInt2 main.cpp BigInt.cc BigInt.h )
 
 add_executable(Tests  tests/catch.hpp tests/mainTest.cc tests/testOperations.cc)
+add_executable(Trying trying.cc)

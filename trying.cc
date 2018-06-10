@@ -9,7 +9,11 @@ using std::cout;
 using std::endl;
 using std::vector;
 int main() {
-  cout<<std::numeric_limits<unsigned long long>::max();
+  int i = 1;
+  for(; false; ++i) {
+
+  }
+  cout << i << endl;
 
 
   return 0;

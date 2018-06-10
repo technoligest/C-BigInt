@@ -14,12 +14,12 @@
 
 #include <vector>
 #include <iostream>
-
+#include <cassert>
 
 using std::vector;
 using std::size_t;
 typedef unsigned long long ull;
-//unsigned long long std::numeric_limits<ull>::max() = std::numeric_limits<ull>::max();
+
 namespace bigint{
 class BigInt{
 public:
@@ -30,59 +30,118 @@ public:
 
   //constructors
   template<
-      typename T, //real type
+      typename T,
       typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
-  inline explicit BigInt(T baseInteger) {
-    if(baseInteger == (T) 0) {
-      isPositive_ = true;
-    } else if(baseInteger < ((T) 0)) {
-      isPositive_ = false;
-      fullInteger_.push_back((ull) (baseInteger * -1));
-    } else {
-      isPositive_ = true;
-      fullInteger_.push_back(baseInteger);
+  inline BigInt(T baseInteger);
+
+  inline BigInt(const BigInt &baseInteger) : fullInteger_(baseInteger.fullInteger_),isPositive_(baseInteger.isPositive_) {};
+  inline BigInt(BigInt &&baseInteger) : fullInteger_(std::move(baseInteger.fullInteger_)),isPositive_(baseInteger.isPositive_) {};
+  BigInt() {}
+
+/*
+ * Equality and inequality comparison operators
+ */
+  friend bool operator==(const BigInt &int1, const BigInt &int2);
+
+  friend bool operator!=(const BigInt &int1, const BigInt &int2);
+
+//comparison
+  bool operator>(const BigInt &int2) const;
+
+  bool operator<(const BigInt &int2) const;
+  bool operator>=(const BigInt &int2) const;
+  bool operator<=(const BigInt &int2) const;
+
+
+
+  inline void difference(vector<ull> num1, const vector<ull> &num2, vector<ull> &result) const;
+  inline void add(const vector<ull> &num1, const vector<ull> &num2, vector<ull> &result) const {
+    result.clear();
+    int i;
+    int carry = 0;
+    for(i = 0; i < num1.size() && i < num2.size(); ++i) {
+      ull n1 = num1[i];
+      ull n2 = num2[i];
+      ull remainder = std::numeric_limits<ull>::max() - n2;
+
+      result.push_back(n1 + n2 + carry);
+
+      /*
+       * overflow is detected if
+       * 1- n1 is larger than the difference between n2 and max<ull>
+       * 2- otherwise, there is overflow if the difference is the same as n1 ans there is a previous carry.
+       */
+      if(n1 > remainder || (n1 == remainder && carry == 1)) {
+        carry = 1;
+      } else {
+        carry = 0;
+      }
+    }
+
+    const vector<ull> &bigger = (i < num1.size()) ? num1 : num2;
+
+    if(carry == 1) {
+      for(; i < bigger.size() && bigger[i] == std::numeric_limits<ull>::max(); ++i) {
+        result.push_back(0);
+      }
+      if(i == bigger.size()) {
+        result.push_back(1);
+      } else {
+        result.push_back(bigger[i] + 1);
+        ++i;
+      }
+    }
+
+    for(; i < bigger.size(); ++i) {
+      result.push_back(bigger[i]);
     }
   }
-  inline BigInt(const BigInt &baseInteger) : fullInteger_(baseInteger.fullInteger_) {};
-  inline BigInt(BigInt &&baseInteger) : fullInteger_(std::move(baseInteger.fullInteger_)) {};
-
-
-  explicit BigInt() {}
 
 
   //functions
-  inline BigInt &operator--() {
-    if(fullInteger_.empty()) {
-      fullInteger_.push_back(1);
-      isPositive_ = false;
-      return *this;
-    }
+  inline BigInt &operator+=(const BigInt &toAdd) {
+    if((this->isPositive_ && !toAdd.isPositive_) ||
+       (!this->isPositive_ && toAdd.isPositive_)) {
+      BigInt toAddAbsolute(toAdd);
+      toAddAbsolute.isPositive_ = true;
+      if((*this) > toAddAbsolute) {
+        vector<ull> temp;
+        difference(fullInteger_, toAdd.fullInteger_, temp);
+        fullInteger_ = std::move(temp);
+      } else {
+        vector<ull> temp;
+        difference(toAdd.fullInteger_, fullInteger_, temp);
+        fullInteger_ = std::move(temp);
+        isPositive_ = !isPositive_;
+      }
+    } else {
+      vector<ull> additionResult;
+      add(fullInteger_, toAdd.fullInteger_, additionResult);
+      fullInteger_ = std::move(additionResult);
 
-    for(size_t i = 0; i < fullInteger_.size(); ++i) {
-      --fullInteger_[i];
-      if(fullInteger_[i] != std::numeric_limits<ull>::max()) {
-        break;
+      if(!isPositive_ && !toAdd.isPositive_) {
+        isPositive_ = false;
       }
     }
-
     return *this;
   }
+  friend BigInt operator+(BigInt lhs,        // passing lhs by value helps optimize chained a+b+c
+                          const BigInt &rhs) // otherwise, both parameters may be const references
+  {
+    lhs += rhs; // reuse compound assignment
+    return lhs; // return the result by value (uses move constructor)
+  }
+
   inline BigInt &operator++() {
-    if(fullInteger_.empty()) {
-      fullInteger_.push_back(1);
-      return *this;
-    }
-    for(size_t i = 0; i < fullInteger_.size(); ++i) {
-      ++fullInteger_[i];
-      if(fullInteger_[i] != 0) {
-        break;
-      }
-    }
-    if(fullInteger_[fullInteger_.size() - 1] == 0) {
-      fullInteger_.push_back(1);
-    }
+    (*this) += 1;
     return *this;
   }
+  inline BigInt operator++(int) {
+    BigInt tmp(*this);
+    (*this) += 1;
+    return tmp;
+  }
+
   inline std::string toString() const {
     std::vector<char> result(1);
     int bitToShift = 0;
@@ -121,107 +180,9 @@ public:
     return std::string(result.begin(), result.end());
   }
 
-};
 
-using std::cout;
-using std::endl;
+}; //class BigInt
 
-#include <bitset>
-
-
-inline std::ostream &operator<<(std::ostream &out, BigInt &integer) {
-  out << integer.toString();
-
-  return out;
-}
-
-
-/*
- * Equality and inequality comparison operators
- */
-inline bool operator==(const BigInt &int1, const BigInt &int2) {
-  if(int1.fullInteger_.empty() && int1.fullInteger_.empty()) return true;
-  if(int1.fullInteger_.size() != int2.fullInteger_.size()) return false;
-  if(int1.isPositive_ != int2.isPositive_) return false;
-  for(int i = 0; i < int1.fullInteger_.size(); ++i) {
-    if(int1.fullInteger_[i] != int2.fullInteger_[i]) {
-      return false;
-    }
-  }
-  return true;
-}
-inline bool operator==(const BigInt &int1, BigInt &&int2) {
-  BigInt int3(int2);
-  return int1 == int3;
-}
-inline bool operator==(BigInt &&int1, const BigInt &int2) {
-  BigInt int3(int1);
-  return int1 == int2;
-}
-inline bool operator==(BigInt &&int1, BigInt &&int2) {
-  BigInt int3(int1);
-  BigInt int4(int2);
-  return int3 == int4;
-}
-
-
-inline bool operator!=(const BigInt &int1, const BigInt &int2) {
-  return !(int1 == int2);
-}
-inline bool operator!=(BigInt &&int1, const BigInt &int2) {
-  return !(int1 == int2);
-}
-inline bool operator!=(const BigInt &int1, BigInt &&int2) {
-  return !(int1 == int2);
-}
-inline bool operator!=(BigInt &&int1, BigInt &&int2) {
-  return !(int1 == int2);
-}
-
-inline BigInt operator-(const BigInt &int1, const BigInt &int2) {
-  return BigInt(0);
-}
-
-
-inline BigInt operator+(const BigInt &int1, const BigInt &int2) {
-  if(int1.isPositive_ && !int2.isPositive_) {
-    BigInt temp(int2);
-    temp.isPositive_ = true;
-    return int1 - temp;
-  } else if(!int1.isPositive_ && int2.isPositive_) {
-    BigInt temp(int1);
-    return int2 - temp;
-  }
-
-  bigint::BigInt result;
-  int i = 0;
-  int carry = 0;
-  while(i < int1.fullInteger_.size() && i < int2.fullInteger_.size()) {
-    int num1 = int1.fullInteger_[i];
-    int num2 = int2.fullInteger_[i];
-
-    result.fullInteger_.push_back(num1 + num2 + carry);
-
-    if(num1 > std::numeric_limits<ull>::max() - num2 ||
-       (carry == 1 && num1 == std::numeric_limits<ull>::max() - num2)) {
-      carry = 1;
-    } else {
-      carry = 0;
-    }
-    ++i;
-  }
-  while(i < int1.fullInteger_.size()) {
-    result.fullInteger_.push_back(int1.fullInteger_[i]);
-    ++i;
-  }
-  while(i < int2.fullInteger_.size()) {
-    result.fullInteger_.push_back(int2.fullInteger_[i]);
-  }
-  if(!int1.isPositive_ && !int2.isPositive_) {
-    result.isPositive_ = false;
-  }
-  return std::move(result);
-}
 
 
 }//namespace bigint
