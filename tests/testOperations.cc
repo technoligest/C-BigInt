@@ -140,11 +140,20 @@ TEST_CASE("Comparison works for rvalues") {
   REQUIRE(BigInt(9) != BigInt(9231));
 }
 
-TEST_CASE("Bigger than works for positive and negative numbers.") {
+TEST_CASE("Comparison than works for positive and negative numbers.") {
+  vector<ull> largeNums1{75, 876324, 752};
+  vector<ull> largeNums2{785, 876324, 75232};
+
   BigInt negative1(-1567);
-  std::cout<<negative1<<std::endl;
   BigInt negative1_copy = negative1;
   BigInt negative2(-67234);
+  BigInt largeNegative1;
+  largeNegative1.isPositive_ = false;
+  largeNegative1.fullInteger_ = largeNums1;
+  BigInt largeNegative2;
+  largeNegative2.isPositive_ = false;
+  largeNegative2.fullInteger_ = largeNums2;
+
 
   BigInt positive1(123);
   BigInt positive1_copy = positive1;
@@ -152,21 +161,51 @@ TEST_CASE("Bigger than works for positive and negative numbers.") {
 
   BigInt zero(0);
   BigInt largePositiveNumber;
-  vector<ull> tempNums{75, 876324};
-  largePositiveNumber.fullInteger_ = tempNums;
+
+  largePositiveNumber.fullInteger_ = largeNums1;
   BigInt largePositiveNumberCopy(largePositiveNumber);
 
 
-  SECTION("Negative number comparisons."){
+  SECTION("Negative number comparisons.") {
     REQUIRE(negative1 == negative1_copy);
+    REQUIRE(negative1_copy == negative1);
+    REQUIRE_FALSE(negative1 != negative1_copy);
+    REQUIRE_FALSE(negative1_copy != negative1);
     REQUIRE(negative1 >= negative1_copy);
+    REQUIRE(negative1_copy >= negative1);
     REQUIRE(negative1 <= negative1_copy);
-    REQUIRE_FALSE(negative1<negative1_copy);
-    REQUIRE_FALSE(negative1>negative1_copy);
-    REQUIRE(negative1>negative2);
-    REQUIRE(negative2<negative1);
-    REQUIRE(negative1>=negative2);
-    REQUIRE(negative2<=negative2);
+    REQUIRE(negative1_copy <= negative1);
+    REQUIRE_FALSE(negative1 < negative1_copy);
+    REQUIRE_FALSE(negative1_copy < negative1);
+    REQUIRE_FALSE(negative1 > negative1_copy);
+    REQUIRE_FALSE(negative1_copy > negative1);
+
+
+    REQUIRE_FALSE(negative1 == negative2);
+    REQUIRE_FALSE(negative2 == negative1);
+    REQUIRE(negative1 != negative2);
+    REQUIRE(negative2 != negative1);
+    REQUIRE(negative1 >= negative2);
+    REQUIRE_FALSE(negative2 >= negative1);
+    REQUIRE_FALSE(negative1 <= negative2);
+    REQUIRE(negative2 <= negative1);
+    REQUIRE(negative2 < negative1);
+    REQUIRE_FALSE(negative1 < negative2);
+    REQUIRE(negative1 > negative2);
+    REQUIRE_FALSE(negative2 > negative1);
+
+    REQUIRE_FALSE(largeNegative1 == largeNegative2);
+    REQUIRE_FALSE(largeNegative2 == largeNegative1);
+    REQUIRE(largeNegative1 != largeNegative2);
+    REQUIRE(largeNegative2 != largeNegative1);
+    REQUIRE(largeNegative1 >= largeNegative2);
+    REQUIRE_FALSE(largeNegative2 >= largeNegative1);
+    REQUIRE_FALSE(largeNegative1 <= largeNegative2);
+    REQUIRE(largeNegative2 <= largeNegative1);
+    REQUIRE(largeNegative2 < largeNegative1);
+    REQUIRE_FALSE(largeNegative1 < largeNegative2);
+    REQUIRE(largeNegative1 > largeNegative2);
+    REQUIRE_FALSE(largeNegative2 > largeNegative1);
   }
 
 

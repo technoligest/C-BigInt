@@ -17,7 +17,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BigInt.cc" beforeDir="false" afterPath="$PROJECT_DIR$/BigInt.cc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BigInt.h" beforeDir="false" afterPath="$PROJECT_DIR$/BigInt.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/testOperations.cc" beforeDir="false" afterPath="$PROJECT_DIR$/tests/testOperations.cc" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -39,11 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testOperations.cc" pinned="false" current-in-tab="false">
+      <file leaf-file-name="testOperations.cc" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests/testOperations.cc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="144" selection-start-line="144" selection-end-line="144" />
+            <state relative-caret-position="207">
+              <caret line="144" column="45" lean-forward="true" selection-start-line="144" selection-start-column="45" selection-end-line="144" selection-end-column="45" />
               <folding>
                 <element signature="e#51#71#0" expanded="true" />
               </folding>
@@ -75,11 +75,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BigInt.cc" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BigInt.cc" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BigInt.cc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" selection-start-line="7" selection-end-line="7" />
+            <state relative-caret-position="3465">
+              <caret line="231" column="3" selection-start-line="231" selection-start-column="3" selection-end-line="231" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -87,8 +87,8 @@
       <file leaf-file-name="BigInt.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BigInt.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="69" column="20" selection-start-line="69" selection-start-column="20" selection-end-line="69" selection-end-column="20" />
+            <state relative-caret-position="870">
+              <caret line="58" selection-start-line="58" selection-end-line="58" />
               <folding>
                 <element signature="e#350#367#0" expanded="true" />
                 <element signature="e#630#730#0" expanded="true" />
@@ -111,12 +111,14 @@
       <find>toString</find>
       <find>operator==</find>
       <find>+++</find>
+      <find>negative</find>
     </findStrings>
     <replaceStrings>
       <replace>std::numeric_limits&lt;ull&gt;::max()</replace>
       <replace>(*this)</replace>
       <replace>(*this)int1.</replace>
       <replace>int1.</replace>
+      <replace>largeNegative</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -131,10 +133,10 @@
         <option value="$PROJECT_DIR$/tests/mainTest.cc" />
         <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/trying.cc" />
-        <option value="$PROJECT_DIR$/tests/testOperations.cc" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/BigInt.h" />
         <option value="$PROJECT_DIR$/BigInt.cc" />
+        <option value="$PROJECT_DIR$/tests/testOperations.cc" />
       </list>
     </option>
   </component>
@@ -208,7 +210,7 @@
   </component>
   <component name="RunManager" selected="Catch.Bigger than works for positive and negative numbers.">
     <configuration name="AllTests" type="CMakeCatchTestRunConfigurationType" factoryName="Catch Test" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BigInt2" TARGET_NAME="Tests" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BigInt2" RUN_TARGET_NAME="Tests" TEST_MODE="SUITE_TEST" />
-    <configuration name="Bigger than works for positive and negative numbers." type="CMakeCatchTestRunConfigurationType" factoryName="Catch Test" temporary="true" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BigInt2" TARGET_NAME="Tests" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BigInt2" RUN_TARGET_NAME="Tests" TEST_METHOD="Bigger than works for positive and negative numbers." TEST_MODE="SUITE_TEST" />
+    <configuration name="Bigger than works for positive and negative numbers." type="CMakeCatchTestRunConfigurationType" factoryName="Catch Test" temporary="true" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BigInt2" TARGET_NAME="Tests" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BigInt2" RUN_TARGET_NAME="Tests" TEST_MODE="SUITE_TEST" />
     <configuration name="Comparison works for same size negative integers." type="CMakeCatchTestRunConfigurationType" factoryName="Catch Test" temporary="true" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BigInt2" TARGET_NAME="Tests" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BigInt2" RUN_TARGET_NAME="Tests" TEST_METHOD="Comparison works for same size negative integers." TEST_MODE="SUITE_TEST" />
     <configuration name="BigInt2" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BigInt2" TARGET_NAME="BigInt2" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BigInt2" RUN_TARGET_NAME="BigInt2" />
     <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="BigInt2" RUN_TARGET_NAME="BigInt2" EXPLICIT_BUILD_TARGET_NAME="all" />
@@ -248,44 +250,46 @@
       <workItem from="1528596587934" duration="936000" />
       <workItem from="1528603776503" duration="2702000" />
       <workItem from="1528606898519" duration="2300000" />
-      <workItem from="1528610831888" duration="2118000" />
+      <workItem from="1528610831888" duration="3761000" />
+      <workItem from="1528790065013" duration="589000" />
+      <workItem from="1528857385806" duration="2108000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Comparison_works_for_same_size_negative_integers_ - 2018.06.10 at 02h 41m 46s.xml">
-      <configuration name="Comparison works for same size negative integers." configurationId="CMakeCatchTestRunConfigurationType" />
-    </history-entry>
-    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.10 at 02h 49m 03s.xml">
+    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.14 at 16h 44m 49s.xml">
       <configuration name="Bigger than works for positive and negative numbers." configurationId="CMakeCatchTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.10 at 02h 56m 29s.xml">
+    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.14 at 16h 45m 00s.xml">
       <configuration name="Bigger than works for positive and negative numbers." configurationId="CMakeCatchTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.10 at 02h 58m 43s.xml">
+    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.14 at 16h 45m 07s.xml">
       <configuration name="Bigger than works for positive and negative numbers." configurationId="CMakeCatchTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.10 at 02h 59m 59s.xml">
+    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.14 at 16h 48m 30s.xml">
       <configuration name="Bigger than works for positive and negative numbers." configurationId="CMakeCatchTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.10 at 03h 01m 06s.xml">
+    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.14 at 16h 49m 40s.xml">
       <configuration name="Bigger than works for positive and negative numbers." configurationId="CMakeCatchTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.10 at 03h 02m 26s.xml">
+    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.14 at 16h 52m 26s.xml">
       <configuration name="Bigger than works for positive and negative numbers." configurationId="CMakeCatchTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.10 at 03h 49m 09s.xml">
+    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.14 at 16h 55m 07s.xml">
       <configuration name="Bigger than works for positive and negative numbers." configurationId="CMakeCatchTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.10 at 03h 49m 12s.xml">
+    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.14 at 16h 56m 04s.xml">
       <configuration name="Bigger than works for positive and negative numbers." configurationId="CMakeCatchTestRunConfigurationType" />
     </history-entry>
-    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.10 at 03h 49m 27s.xml">
+    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.14 at 16h 57m 04s.xml">
+      <configuration name="Bigger than works for positive and negative numbers." configurationId="CMakeCatchTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="Bigger_than_works_for_positive_and_negative_numbers_ - 2018.06.14 at 16h 57m 37s.xml">
       <configuration name="Bigger than works for positive and negative numbers." configurationId="CMakeCatchTestRunConfigurationType" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37317000" />
+    <option name="totallyTimeSpent" value="41657000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1680" height="1028" extended-state="0" />
@@ -339,12 +343,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/tests/testOperations.cc</url>
-          <line>147</line>
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="1" />
     </breakpoint-manager>
   </component>
@@ -359,17 +357,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Test.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="25" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
-          <folding>
-            <element signature="e#98#115#0" expanded="true" />
-            <element signature="e#327#339#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Test.h" />
     <entry file="file://$PROJECT_DIR$/BigInt.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -429,17 +417,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Test.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="25" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
-          <folding>
-            <element signature="e#98#115#0" expanded="true" />
-            <element signature="e#327#339#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Test.h" />
     <entry file="file://$PROJECT_DIR$/BigInt.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
@@ -499,17 +477,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Test.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="25" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
-          <folding>
-            <element signature="e#98#115#0" expanded="true" />
-            <element signature="e#327#339#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Test.h" />
     <entry file="file://$PROJECT_DIR$/BigInt.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -569,17 +537,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Test.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="25" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
-          <folding>
-            <element signature="e#98#115#0" expanded="true" />
-            <element signature="e#327#339#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Test.h" />
     <entry file="file://$PROJECT_DIR$/BigInt.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="675">
@@ -639,17 +597,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Test.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="25" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
-          <folding>
-            <element signature="e#98#115#0" expanded="true" />
-            <element signature="e#327#339#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Test.h" />
     <entry file="file://$PROJECT_DIR$/BigInt.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -703,23 +651,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Test.h">
+    <entry file="file://$PROJECT_DIR$/Test.h" />
+    <entry file="file://$PROJECT_DIR$/trying.cc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="25" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
+        <state relative-caret-position="240">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="31" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
           <folding>
-            <element signature="e#98#115#0" expanded="true" />
-            <element signature="e#327#339#0" expanded="true" />
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/testOperations.cc">
+    <entry file="file://$PROJECT_DIR$/BigInt.cc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="144" selection-start-line="144" selection-end-line="144" />
+        <state relative-caret-position="3465">
+          <caret line="231" column="3" selection-start-line="231" selection-start-column="3" selection-end-line="231" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BigInt.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="870">
+          <caret line="58" selection-start-line="58" selection-end-line="58" />
           <folding>
-            <element signature="e#51#71#0" expanded="true" />
+            <element signature="e#350#367#0" expanded="true" />
+            <element signature="e#630#730#0" expanded="true" />
+            <element signature="e#1955#1977#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -734,23 +698,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="31" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/trying.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -758,22 +705,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BigInt.h">
+    <entry file="file://$PROJECT_DIR$/tests/testOperations.cc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="69" column="20" selection-start-line="69" selection-start-column="20" selection-end-line="69" selection-end-column="20" />
+        <state relative-caret-position="207">
+          <caret line="144" column="45" lean-forward="true" selection-start-line="144" selection-start-column="45" selection-end-line="144" selection-end-column="45" />
           <folding>
-            <element signature="e#350#367#0" expanded="true" />
-            <element signature="e#630#730#0" expanded="true" />
-            <element signature="e#1955#1977#0" expanded="true" />
+            <element signature="e#51#71#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BigInt.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>

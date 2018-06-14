@@ -64,8 +64,10 @@ public:
 
   //functions
   BigInt &operator+=(const BigInt &toAdd);
-  friend BigInt operator+(BigInt lhs,        // passing lhs by value helps optimize chained a+b+c
-                          const BigInt &rhs);
+  friend BigInt operator+(BigInt lhs, const BigInt &rhs);
+
+  BigInt &operator-=(const BigInt &toSubtract);
+  friend BigInt operator-(BigInt lhs, const BigInt &rhs);
 
   BigInt &operator++();
   BigInt operator++(int);

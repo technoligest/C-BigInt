@@ -166,6 +166,7 @@ BigInt BigInt::operator++(int) {
   return tmp;
 }
 
+
 BigInt &BigInt::operator--() {
   //TODO Implement
   //(*this) -= 1;
@@ -177,12 +178,14 @@ BigInt BigInt::operator--(int) {
   //(*this) -= 1;
   return tmp;
 }
+
+//Using the double dabble algorithm, based on Wikipedia C code
 std::string BigInt::toString() const {
   std::vector<char> result(1);
   int bitToShift = 0;
   for(int i = fullInteger_.size() - 1; i >= 0; --i) {
     for(int j = sizeof(ull) * 8 - 1; j >= 0; --j) {
-      if((fullInteger_[i] & ((ull) 1 << j)) > 0) {
+      if((fullInteger_[i] & (1ULL << j)) > 0) {
         bitToShift = 1;
       } else {
         bitToShift = 0;
@@ -203,17 +206,21 @@ std::string BigInt::toString() const {
       result[0] <<= 1;
       result[0] &= 0xF;
       result[0] |= bitToShift;
-
-    };
+    }
   }
-  int last = result.size();
-  while(result[--last] == 0);
+
+  int last = result.size() - 1;
+  while(result[last] == 0) {
+    --last;
+  }
 
   for(int i = last; i >= 0; --i) {
     result[i] += '0';
   }
+
   return std::string(result.begin(), result.end());
 }
+
 bool operator==(const BigInt &int1, const BigInt &int2) {
   if(int1.fullInteger_.empty() && int1.fullInteger_.empty()) return true;
   if(int1.fullInteger_.size() != int2.fullInteger_.size()) return false;
