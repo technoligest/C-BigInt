@@ -8,36 +8,38 @@ namespace bigint{
 
 
 bool BigInt::operator>(const BigInt &int2) const {
-  if((*this).isPositive_ && !int2.isPositive_) {
+  if(this->isPositive_ && !int2.isPositive_) {
     return true;
-  } else if(!(*this).isPositive_ && int2.isPositive_) {
+  } else if(!this->isPositive_ && int2.isPositive_) {
     return false;
-  } else if((*this).isPositive_ && int2.isPositive_) {
-    if((*this).fullInteger_.size() > int2.fullInteger_.size()) {
+  } else if(this->isPositive_ && int2.isPositive_) {
+    if(this->fullInteger_.size() > int2.fullInteger_.size()) {
       return true;
     }
-    if((*this).fullInteger_.size() < int2.fullInteger_.size()) {
+    if(this->fullInteger_.size() < int2.fullInteger_.size()) {
       return false;
     }
-    for(int i = (*this).fullInteger_.size() - 1; i >= 0; --i) {
-      if((*this).fullInteger_[i] < int2.fullInteger_[i]) {
-        return false;
+    int i;
+    for(i = this->fullInteger_.size() - 1; i > 0; --i) {
+      if(this->fullInteger_[i] != int2.fullInteger_[i]) {
+        break;
       }
     }
-    return true;
-  } else if(!(*this).isPositive_ && !int2.isPositive_) {
-    if((*this).fullInteger_.size() > int2.fullInteger_.size()) {
+    return this->fullInteger_[i] > int2.fullInteger_[i];
+  } else if(!this->isPositive_ && !int2.isPositive_) {
+    if(this->fullInteger_.size() > int2.fullInteger_.size()) {
       return false;
     }
-    if((*this).fullInteger_.size() < int2.fullInteger_.size()) {
+    if(this->fullInteger_.size() < int2.fullInteger_.size()) {
       return true;
     }
-    for(int i = (*this).fullInteger_.size() - 1; i >= 0; --i) {
-      if((*this).fullInteger_[i] < int2.fullInteger_[i]) {
-        return true;
+    int i;
+    for(i = this->fullInteger_.size() - 1; i > 0; --i) {
+      if(this->fullInteger_[i] != int2.fullInteger_[i]) {
+        break;
       }
     }
-    return false;
+    return this->fullInteger_[i] < int2.fullInteger_[i];
   }
   assert(false);
   return true;
@@ -46,10 +48,10 @@ bool BigInt::operator<(const BigInt &int2) const {
   return int2 > (*this);
 }
 bool BigInt::operator>=(const BigInt &int2) const {
-  return !((*this) < int2);
+  return !this->operator<(int2);
 }
 bool BigInt::operator<=(const BigInt &int2) const {
-  return !((*this) > int2);
+  return !this->operator>(int2);
 }
 
 
@@ -181,6 +183,15 @@ BigInt BigInt::operator--(int) {
 
 //Using the double dabble algorithm, based on Wikipedia C code
 std::string BigInt::toString() const {
+  assert(!fullInteger_.empty());
+  if(fullInteger_.size() == 1) {
+    if(isPositive_) {
+      return std::to_string(fullInteger_[0]);
+    } else {
+      return std::string("-") + std::to_string(fullInteger_[0]);
+    }
+
+  }
   std::vector<char> result(1);
   int bitToShift = 0;
   for(int i = fullInteger_.size() - 1; i >= 0; --i) {
@@ -217,20 +228,68 @@ std::string BigInt::toString() const {
   for(int i = last; i >= 0; --i) {
     result[i] += '0';
   }
-
-  return std::string(result.begin(), result.end());
+  if(isPositive_) {
+    return std::string(result.rbegin(), result.rend());
+  } else {
+    return std::string("-") + std::string(result.rbegin(), result.rend());
+  }
 }
 
 bool operator==(const BigInt &int1, const BigInt &int2) {
-  if(int1.fullInteger_.empty() && int1.fullInteger_.empty()) return true;
-  if(int1.fullInteger_.size() != int2.fullInteger_.size()) return false;
-  if(int1.isPositive_ != int2.isPositive_) return false;
+  if(int1.fullInteger_.empty() && int2.fullInteger_.empty()) {
+    return true;
+  }
+  if(int1.fullInteger_.size() != int2.fullInteger_.size()) {
+    return false;
+  }
+  if(int1.isPositive_ != int2.isPositive_) {
+    return false;
+  }
   for(int i = 0; i < int1.fullInteger_.size(); ++i) {
     if(int1.fullInteger_[i] != int2.fullInteger_[i]) {
       return false;
     }
   }
   return true;
+}
+string BigInt::divByTwo(const string &s) {
+  if(s == "0" || s == "1") {
+    return "0";
+  }
+  string newString("");
+  int toAdd = 0;
+  for(const char &ch:s) {
+    assert(std::isdigit(ch));
+    newString += std::to_string((toDigit(ch) / 2 + toAdd));
+    toAdd = ((int) ch) % 2 == 1 ? 5 : 0;
+  }
+  if(newString[0] == '0') {
+    newString.erase(0, 1);
+  }
+  return newString;
+}
+string BigInt::convertToBinary(string num) {
+  if(num == "0") {
+    return string("0");
+  } else {
+    string result("");
+    while(num != "0") {
+      result = string((int) num[num.size() - 1] % 2 == 1 ? "1" : "0") + result;
+      num = divByTwo(num);
+    }
+    return result;
+  }
+}
+ull BigInt::stringToUll(const string s) {
+  ull result = 0ULL;
+  for(int i = 0; i < s.size(); ++i) {
+    assert(s[i] == '1' || s[i] == '0');
+    result <<= 1;
+    if(s[i] == '1') {
+      result |= 1;
+    }
+  }
+  return result;
 }
 
 

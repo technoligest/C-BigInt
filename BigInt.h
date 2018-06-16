@@ -15,32 +15,91 @@
 #include <vector>
 #include <iostream>
 #include <cassert>
+#include <string>
 
 using std::vector;
 using std::size_t;
+using std::string;
+using std::cout;
+using std::endl;
 typedef unsigned long long ull;
+#define toDigit(c) (c-'0')
+
 
 namespace bigint{
 class BigInt{
+private:
 
-public:
   //instance variable
   std::vector<ull> fullInteger_;
   bool isPositive_ = true;
 
 
-  //constructors
+  string divByTwo(const string &s);
+  string convertToBinary(string num);
 
+  ull stringToUll(const string s);
+
+
+public:
+
+  inline auto fullInteger() const {
+    return fullInteger_;
+  }
+  inline auto isPositive() const {
+    return isPositive_;
+  }
+  //constructors
+  inline BigInt(const string &s) {
+    if(s.empty() || s == "-0") {
+      fullInteger_.push_back(0);
+      return;
+    }
+    string bin;
+    switch(s[0]) {
+      case '-':
+        isPositive_ = false;
+      case '+':
+        bin = convertToBinary(string(s.begin() + 1, s.end()));
+        break;
+      default:
+        bin = convertToBinary(s);
+    }
+
+    int i;
+    for(i = bin.size(); i - (int) (sizeof(ull) * 8) >= 0; i -= (sizeof(ull) * 8)) {
+      fullInteger_.push_back(stringToUll(string(bin.begin() + (i - sizeof(ull) * 8), bin.begin() + i)));
+    }
+    if(i != 0) {
+      fullInteger_.push_back(stringToUll(string(bin.begin(), bin.begin() + i)));
+    }
+
+    //Removing padding zeros
+    for(int i = fullInteger_.size() - 1; i > 0; --i) {
+      if(fullInteger_[i] == 0) {
+        fullInteger_.pop_back();
+      } else {
+        return;
+      }
+    }
+  }
   //Constructor that takes any numerical type as input.
   template<
       typename T,
       typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
-  BigInt(T baseInteger);
+  BigInt(T baseInteger) {
+    if(baseInteger < ((T) 0)) {
+      isPositive_ = false;
+      fullInteger_.push_back((ull) (baseInteger * -1));
+    } else {
+      fullInteger_.push_back(baseInteger);
+    }
+  }
 
   BigInt(const BigInt &baseInteger) : fullInteger_(baseInteger.fullInteger_), isPositive_(baseInteger.isPositive_) {};
   BigInt(BigInt &&baseInteger) : fullInteger_(std::move(baseInteger.fullInteger_)),
                                  isPositive_(baseInteger.isPositive_) {};
-  BigInt() {}
+  BigInt() { fullInteger_.push_back(0); }
 
 /*
  * Equality and inequality comparison operators
@@ -79,18 +138,15 @@ public:
 
 }; //class BigInt
 
-template<typename T, typename>
-BigInt::BigInt(T baseInteger) {
-  if(baseInteger == (T) 0) {
-    isPositive_ = true;
-  } else if(baseInteger < ((T) 0)) {
-    isPositive_ = false;
-    fullInteger_.push_back((ull) (baseInteger * -1));
-  } else {
-    isPositive_ = true;
-    fullInteger_.push_back(baseInteger);
-  }
-}
+//template<typename T, typename>
+//BigInt::BigInt(T baseInteger) {
+//  if(baseInteger < ((T) 0)) {
+//    isPositive_ = false;
+//    fullInteger_.push_back((ull) (baseInteger * -1));
+//  } else {
+//    fullInteger_.push_back(baseInteger);
+//  }
+//}
 
 //To pringt a bigInt object (toString)
 inline std::ostream &operator<<(std::ostream &out, BigInt &integer) {

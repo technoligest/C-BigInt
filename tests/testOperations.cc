@@ -7,137 +7,36 @@
 
 using bigint::BigInt;
 using std::vector;
-//typedef unsigned long long ull;
 
 
-
-TEST_CASE("Correct initialization of constructor.") {
-  BigInt int1(1234);
-  REQUIRE(int1.fullInteger_.size() == 1);
-  REQUIRE(int1.fullInteger_[0] == 1234);
-
-  BigInt int2(-1234);
-  REQUIRE(int2.fullInteger_.size() == 1);
-  REQUIRE(int2.fullInteger_[0] == 1234);
-
-  BigInt int3(int1);
-  REQUIRE(int3.fullInteger_.size() == 1);
-  REQUIRE(int3.fullInteger_[0] == 1234);
-  REQUIRE(int3.isPositive_);
-
-  BigInt int4(BigInt(5000));
-  REQUIRE(int4.fullInteger_.size() == 1);
-  REQUIRE(int4.fullInteger_[0] == 5000);
-  REQUIRE(int4.isPositive_);
-
-
-  vector<ull> ints;
-  int4.fullInteger_ = ints;
-
-  BigInt int5(int4);
-  REQUIRE(int5.fullInteger_ == ints);
-
+void checkAllOperatorsFirstBiggerThanSecond(const BigInt &num1, const BigInt &num2) {
+  REQUIRE_FALSE(num1 == num2);
+  REQUIRE_FALSE(num2 == num1);
+  REQUIRE(num1 != num2);
+  REQUIRE(num2 != num1);
+  REQUIRE(num1 >= num2);
+  REQUIRE_FALSE(num2 >= num1);
+  REQUIRE_FALSE(num1 <= num2);
+  REQUIRE(num2 <= num1);
+  REQUIRE(num2 < num1);
+  REQUIRE_FALSE(num1 < num2);
+  REQUIRE(num1 > num2);
+  REQUIRE_FALSE(num2 > num1);
 }
 
-TEST_CASE("BigInt is initialized to sign of value given by default") {
-  BigInt int1(123432);
-  REQUIRE(int1.isPositive_);
-
-  BigInt int2(-1234);
-  REQUIRE_FALSE(int2.isPositive_);
-
-  BigInt int3(0);
-  REQUIRE(int3.isPositive_);
-}
-
-TEST_CASE("Comparison works for same size positive integers.") {
-  BigInt int1(std::numeric_limits<ull>::max());
-  BigInt int2(std::numeric_limits<ull>::max());
-  assert(int1.isPositive_);
-  assert(int1.fullInteger_[0] == std::numeric_limits<ull>::max());
-  assert(int2.isPositive_);
-  assert(int2.fullInteger_[0] == std::numeric_limits<ull>::max());
-
-  REQUIRE(int1 == int2);
-  REQUIRE_FALSE(int2 != int2);
-
-  BigInt int3(0);
-  BigInt int4(0);
-  REQUIRE(int3 == int4);
-  REQUIRE_FALSE(int2 != int2);
-
-  BigInt int5;
-  assert(int5.isPositive_);
-  vector<ull> ints{499, 123, 123, 900};
-  int5.fullInteger_ = ints;
-
-  BigInt int6;
-  assert(int6.isPositive_);
-  int6.fullInteger_ = ints;
-
-  REQUIRE(int5 == int6);
-  REQUIRE_FALSE(int5 != int6);
-}
-
-TEST_CASE("Comparison works for same size negative integers.") {
-  BigInt int1(std::numeric_limits<ull>::max());
-  int1.isPositive_ = false;
-  BigInt int2(std::numeric_limits<ull>::max());
-  int2.isPositive_ = false;
-
-  REQUIRE(int1 == int2);
-  REQUIRE_FALSE(int2 != int2);
-
-  BigInt int3(0);
-  BigInt int4(0);
-  int3.isPositive_ = false;
-  int4.isPositive_ = false;
-
-
-  REQUIRE(int3 == int4);
-  REQUIRE_FALSE(int2 != int2);
-
-  BigInt int5;
-  vector<ull> ints{499, 123, 123, 900};
-  int5.fullInteger_ = ints;
-  int5.isPositive_ = false;
-
-  BigInt int6;
-  int6.fullInteger_ = ints;
-  int6.isPositive_ = false;
-
-  REQUIRE(int5 == int6);
-  REQUIRE_FALSE(int5 != int6);
-}
-TEST_CASE("Comparison works for same value different sign numbers.") {
-  BigInt int1(4);
-  BigInt int2(-4);
-  REQUIRE(int1 != int2);
-  REQUIRE_FALSE(int1 == int2);
-
-  BigInt int3(0);
-  BigInt int4(0);
-  int4.isPositive_ = false;
-  REQUIRE_FALSE(int4.isPositive_);
-  REQUIRE_FALSE(int3 != int4);
-  REQUIRE(int3 == int4);
-
-}
-TEST_CASE("Comparison works for different size positive integers.") {
-  BigInt int1(std::numeric_limits<ull>::max());
-  BigInt int2(0);
-  REQUIRE_FALSE(int1 == int2);
-  REQUIRE(int1 != int2);
-}
-TEST_CASE("Comparison works for rvalues") {
-  BigInt int1(std::numeric_limits<ull>::max());
-  REQUIRE_FALSE(int1 == BigInt(9));
-  REQUIRE(int1 != BigInt(9));
-  REQUIRE_FALSE(BigInt(9) == int1);
-  REQUIRE(BigInt(9) != int1);
-
-  REQUIRE_FALSE(BigInt(9) == BigInt(99234));
-  REQUIRE(BigInt(9) != BigInt(9231));
+void checkAllOperatorsEqual(const BigInt &num1, const BigInt &num2) {
+  REQUIRE(num1 == num2);
+  REQUIRE(num2 == num1);
+  REQUIRE_FALSE(num1 != num2);
+  REQUIRE_FALSE(num2 != num1);
+  REQUIRE(num1 >= num2);
+  REQUIRE(num2 >= num1);
+  REQUIRE(num1 <= num2);
+  REQUIRE(num2 <= num1);
+  REQUIRE_FALSE(num2 < num1);
+  REQUIRE_FALSE(num1 < num2);
+  REQUIRE_FALSE(num1 > num2);
+  REQUIRE_FALSE(num2 > num1);
 }
 
 TEST_CASE("Comparison than works for positive and negative numbers.") {
@@ -147,12 +46,11 @@ TEST_CASE("Comparison than works for positive and negative numbers.") {
   BigInt negative1(-1567);
   BigInt negative1_copy = negative1;
   BigInt negative2(-67234);
-  BigInt largeNegative1;
-  largeNegative1.isPositive_ = false;
-  largeNegative1.fullInteger_ = largeNums1;
-  BigInt largeNegative2;
-  largeNegative2.isPositive_ = false;
-  largeNegative2.fullInteger_ = largeNums2;
+  BigInt largeNegative1("-1234788929148347138292");
+  BigInt largeNegative2("-8919132423478418929113448347138292");
+
+  BigInt largeNegative3("-1361129467684991793892783810002005524480");
+  BigInt largeNegative4("-1361129467684991793892783810002005524496");
 
 
   BigInt positive1(123);
@@ -160,62 +58,109 @@ TEST_CASE("Comparison than works for positive and negative numbers.") {
   BigInt positive2(98625373);
 
   BigInt zero(0);
-  BigInt largePositiveNumber;
+  BigInt zero2(0);
+  BigInt largePositive1("1234788929148347138292");
+  BigInt largePositive2("8919132423478418929113448347138292");
+  BigInt largePositive3("1361129467684991793892783810002005524480");
+  BigInt largePositive4("1361129467684991793892783810002005524496");
 
-  largePositiveNumber.fullInteger_ = largeNums1;
-  BigInt largePositiveNumberCopy(largePositiveNumber);
+  BigInt largePositiveNumberCopy(largePositive1);
+  SECTION("toString works") {
+    REQUIRE(zero.toString() == "0");
+    REQUIRE(negative1.toString() == "-1567");
+    REQUIRE(negative2.toString() == "-67234");
+    REQUIRE(BigInt("-3245432").toString() == "-3245432");
+    REQUIRE(largeNegative1.toString() == "-1234788929148347138292");
+    REQUIRE(largeNegative2.toString() == "-8919132423478418929113448347138292");
+    REQUIRE(largeNegative3.toString() == "-1361129467684991793892783810002005524480");
 
+    REQUIRE(positive1.toString() == "123");
+    REQUIRE(positive2.toString() == "98625373");
+    REQUIRE(largePositive1.toString() == "1234788929148347138292");
+    REQUIRE(largePositive2.toString() == "8919132423478418929113448347138292");
+    REQUIRE(largePositive3.toString() == "1361129467684991793892783810002005524480");
+    REQUIRE(BigInt("3245432").toString() == "3245432");
+  }
+  SECTION("Negative Number Equality.") {
+    checkAllOperatorsEqual(negative1, negative1);
+    checkAllOperatorsEqual(negative1, negative1_copy);
 
-  SECTION("Negative number comparisons.") {
-    REQUIRE(negative1 == negative1_copy);
-    REQUIRE(negative1_copy == negative1);
-    REQUIRE_FALSE(negative1 != negative1_copy);
-    REQUIRE_FALSE(negative1_copy != negative1);
-    REQUIRE(negative1 >= negative1_copy);
-    REQUIRE(negative1_copy >= negative1);
-    REQUIRE(negative1 <= negative1_copy);
-    REQUIRE(negative1_copy <= negative1);
-    REQUIRE_FALSE(negative1 < negative1_copy);
-    REQUIRE_FALSE(negative1_copy < negative1);
-    REQUIRE_FALSE(negative1 > negative1_copy);
-    REQUIRE_FALSE(negative1_copy > negative1);
-
-
-    REQUIRE_FALSE(negative1 == negative2);
-    REQUIRE_FALSE(negative2 == negative1);
-    REQUIRE(negative1 != negative2);
-    REQUIRE(negative2 != negative1);
-    REQUIRE(negative1 >= negative2);
-    REQUIRE_FALSE(negative2 >= negative1);
-    REQUIRE_FALSE(negative1 <= negative2);
-    REQUIRE(negative2 <= negative1);
-    REQUIRE(negative2 < negative1);
-    REQUIRE_FALSE(negative1 < negative2);
-    REQUIRE(negative1 > negative2);
-    REQUIRE_FALSE(negative2 > negative1);
-
-    REQUIRE_FALSE(largeNegative1 == largeNegative2);
-    REQUIRE_FALSE(largeNegative2 == largeNegative1);
-    REQUIRE(largeNegative1 != largeNegative2);
-    REQUIRE(largeNegative2 != largeNegative1);
-    REQUIRE(largeNegative1 >= largeNegative2);
-    REQUIRE_FALSE(largeNegative2 >= largeNegative1);
-    REQUIRE_FALSE(largeNegative1 <= largeNegative2);
-    REQUIRE(largeNegative2 <= largeNegative1);
-    REQUIRE(largeNegative2 < largeNegative1);
-    REQUIRE_FALSE(largeNegative1 < largeNegative2);
-    REQUIRE(largeNegative1 > largeNegative2);
-    REQUIRE_FALSE(largeNegative2 > largeNegative1);
+  }
+  SECTION("Negative large number equality") {
+    BigInt largeNegative1_copy(largeNegative1);
+    checkAllOperatorsEqual(largeNegative1, largeNegative1_copy);
+  }
+  SECTION("Negative Number Small Comparison") {
+    checkAllOperatorsFirstBiggerThanSecond(negative1, negative2);
   }
 
+  SECTION("Negative Number Large number comparison") {
+    checkAllOperatorsFirstBiggerThanSecond(largeNegative1, largeNegative2);
+  }
+  SECTION("Small negative with large negative comparison") {
+    checkAllOperatorsFirstBiggerThanSecond(negative1, largeNegative1);
+  }
+  SECTION("Zero and large negative") {
+    checkAllOperatorsFirstBiggerThanSecond(zero, largeNegative2);
+  }
+  SECTION("Zero with zero") {
+    checkAllOperatorsEqual(zero, zero2);
+  }
+  SECTION("Zero and positive") {
+    checkAllOperatorsFirstBiggerThanSecond(largePositive4, zero);
+  }
+}
 
-  //REQUIRE(int2 > int1);
-  //REQUIRE(int2 >= int1);
-  //REQUIRE(int1 < int2);
-  //REQUIRE(int1 <= int2);
-  //REQUIRE_FALSE(int1 > int2);
-  //REQUIRE_FALSE(int1 >= int2);
-  //REQUIRE_FALSE(int2 < int1);
-  //REQUIRE_FALSE(int2 <= int1);
+TEST_CASE("Initialization works") {
+  BigInt zero1(0);
+  BigInt zero2("-0");
+  BigInt zero3;
+
+  REQUIRE(zero1 == 0);
+  REQUIRE(zero2 == 0);
+  REQUIRE(zero3 == 0);
+
+  BigInt one1(1);
+  BigInt one2("1");
+  BigInt one3("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001");
+
+  REQUIRE(one1 == 1);
+  REQUIRE(one2 == 1);
+  REQUIRE(one3 == 1);
+
+  BigInt negativeOne(
+      "-000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001");
+
+  REQUIRE(negativeOne == -1);
+
+  BigInt largePositive("18446744073709551616");
+
+
+
+
+}
+
+
+TEST_CASE("Addition Works") {
+
+  BigInt positiveSmall1(50);
+  BigInt positiveSmall2(100);
+  BigInt zero1(0);
+  BigInt zero2(0);
+
+
+  BigInt negativeSmall1(-50);
+  BigInt negativeSmall2(-100);
+  BigInt max(std::numeric_limits<ull>::max());
+
+  SECTION("Adding two zeros works") {
+    REQUIRE((zero1 + zero2) == 0);
+
+
+  }
+  //adds("Adding small positive numbers works". positiveSmall1,positiveSmall2);
+  //SECTION(){
+  //
+  //}
 
 }

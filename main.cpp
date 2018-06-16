@@ -7,20 +7,20 @@
 using std::vector;
 using std::cout;
 using std::endl;
+using bigint::BigInt;
 typedef unsigned long long ull;
 
+template<typename T>
+std::ostream &operator<<(std::ostream &stream, const vector<T> &list) {
+  for(const auto &item:list) {
+    stream << item << " ";
+  }
+  return stream;
+}
 int main() {
-  //std::cout << "Hello, World!" << std::endl;
-  //ull integer = 52324324623;
-  //bigint::BigInt int1(integer);
-  //int1.fullInteger_[0]=21;
-  //int1.fullInteger_.push_back(21);
-  //int1.fullInteger_.push_back(21);
-  //cout << int1 << endl;
-  //cout<<integer<<endl;
-
-  cout << sizeof(char) << endl;
-
+  BigInt negative1(-1567);
+  auto num = 18446744073709551615ULL;
+  cout << num << endl;
 
   return 0;
 }
