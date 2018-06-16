@@ -18,9 +18,6 @@ std::ostream &operator<<(std::ostream &stream, const vector<T> &list) {
   return stream;
 }
 int main() {
-  BigInt negative1(-1567);
-  auto num = 18446744073709551615ULL;
-  cout << num << endl;
-
+  cout << std::numeric_limits<ull>::max() << endl;
   return 0;
 }

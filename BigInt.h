@@ -31,7 +31,7 @@ class BigInt{
 private:
 
   //instance variable
-  std::vector<ull> fullInteger_;
+  vector<ull> fullInteger_;
   bool isPositive_ = true;
 
 
@@ -43,15 +43,15 @@ private:
 
 public:
 
-  inline auto fullInteger() const {
+  inline vector<ull> fullInteger() const {
     return fullInteger_;
   }
-  inline auto isPositive() const {
+  inline bool isPositive() const {
     return isPositive_;
   }
   //constructors
   inline BigInt(const string &s) {
-    if(s.empty() || s == "-0") {
+    if(s.empty()) {
       fullInteger_.push_back(0);
       return;
     }
@@ -81,6 +81,11 @@ public:
       } else {
         return;
       }
+    }
+
+    //checking if the number is zero
+    if(fullInteger_.size() == 1 && fullInteger_[0] == 0) {
+      isPositive_ = true;
     }
   }
   //Constructor that takes any numerical type as input.
