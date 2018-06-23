@@ -12,7 +12,7 @@
 #ifndef BIGINT2_BIGINT_H
 #define BIGINT2_BIGINT_H
 
-#include "safeCPP/scpp_vector.hpp"
+#include "../safeCPP/scpp_vector.hpp"
 #include <iostream>
 #include <cassert>
 #include <string>
