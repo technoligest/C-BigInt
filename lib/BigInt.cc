@@ -6,6 +6,21 @@
 
 namespace bigint{
 
+bool BigInt::firstIsBiggerThanSecond(const vector<ull> &num1, const vector<ull> &num2) const {
+  if(num1.size() > num2.size()) {
+    return true;
+  }
+  if(num1.size() < num2.size()) {
+    return false;
+  }
+  int i;
+  for(i = num1.size() - 1; i >= 0; --i) {
+    if(num1[i] != num2[i]) {
+      return num1[i] > num2[i];
+    }
+  }
+  return false;
+}
 
 bool BigInt::operator>(const BigInt &int2) const {
   if(this->isPositive_ && !int2.isPositive_) {
@@ -13,33 +28,9 @@ bool BigInt::operator>(const BigInt &int2) const {
   } else if(!this->isPositive_ && int2.isPositive_) {
     return false;
   } else if(this->isPositive_ && int2.isPositive_) {
-    if(this->fullInteger_.size() > int2.fullInteger_.size()) {
-      return true;
-    }
-    if(this->fullInteger_.size() < int2.fullInteger_.size()) {
-      return false;
-    }
-    int i;
-    for(i = this->fullInteger_.size() - 1; i > 0; --i) {
-      if(this->fullInteger_[i] != int2.fullInteger_[i]) {
-        break;
-      }
-    }
-    return this->fullInteger_[i] > int2.fullInteger_[i];
+    return firstIsBiggerThanSecond(this->fullInteger_, int2.fullInteger_);
   } else if(!this->isPositive_ && !int2.isPositive_) {
-    if(this->fullInteger_.size() > int2.fullInteger_.size()) {
-      return false;
-    }
-    if(this->fullInteger_.size() < int2.fullInteger_.size()) {
-      return true;
-    }
-    int i;
-    for(i = this->fullInteger_.size() - 1; i > 0; --i) {
-      if(this->fullInteger_[i] != int2.fullInteger_[i]) {
-        break;
-      }
-    }
-    return this->fullInteger_[i] < int2.fullInteger_[i];
+    return firstIsBiggerThanSecond(int2.fullInteger_, this->fullInteger_);
   }
   assert(false);
   return true;
@@ -59,41 +50,44 @@ bool BigInt::operator<=(const BigInt &int2) const {
 
 //TODO change this implementation so that the first does not have to be bigger than the second one.
 
-void BigInt::difference(vector<ull> num1, const vector<ull> &num2, vector<ull> &result) const {
-  assert(num1.size() >= num2.size());
+vector<ull> BigInt::difference(vector<ull> num1, const vector<ull> &num2) const {
+  assert(num1 >= num2);
+  vector<ull> result;
 
-  result.clear();
   int i;
   for(i = 0; i < num2.size(); ++i) {
-    if(num1[i] > num2[i]) {
+    if(num1[i] >= num2[i]) {
       result.push_back(num1[i] - num2[i]);
     } else {
-      assert(i < num1.size() - 1);
-      assert(num1[i + 1] > 0);
       /*
        * Guaranteed no overflow because num2[i]>num1[i]
        */
       result.push_back(std::numeric_limits<ull>::max() - num2[i] + 1 + num1[i]);
-
-
+      int temp = i;
+      while(num1[temp] == 0) {
+        num1[temp] = std::numeric_limits<ull>::max();
+        ++temp;
+      }
       /*
        * This is only okay because num1>num2
        */
-      --num1[i + 1];
+      --num1[temp];
     }
   }
-  while(i++ < num1.size()) {
+  while(i < num1.size()) {
     result.push_back(num1[i]);
+    ++i;
   }
+  return result;
 }
-void BigInt::add(const vector<ull> &num1, const vector<ull> &num2, vector<ull> &result) const {
-  result.clear();
+vector<ull> BigInt::add(const vector<ull> &num1, const vector<ull> &num2) const {
+  vector<ull> result;
   int i;
   int carry = 0;
   for(i = 0; i < num1.size() && i < num2.size(); ++i) {
-    ull n1 = num1[i];
-    ull n2 = num2[i];
-    ull remainder = std::numeric_limits<ull>::max() - n2;
+    const ull &n1 = num1[i];
+    const ull &n2 = num2[i];
+    const ull &remainder = std::numeric_limits<ull>::max() - n2;
 
     result.push_back(n1 + n2 + carry);
 
@@ -112,8 +106,9 @@ void BigInt::add(const vector<ull> &num1, const vector<ull> &num2, vector<ull> &
   const vector<ull> &bigger = (i < num1.size()) ? num1 : num2;
 
   if(carry == 1) {
-    for(; i < bigger.size() && bigger[i] == std::numeric_limits<ull>::max(); ++i) {
+    while(i < bigger.size() && bigger[i] == std::numeric_limits<ull>::max()) {
       result.push_back(0);
+      ++i;
     }
     if(i == bigger.size()) {
       result.push_back(1);
@@ -122,39 +117,57 @@ void BigInt::add(const vector<ull> &num1, const vector<ull> &num2, vector<ull> &
       ++i;
     }
   }
-
-  for(; i < bigger.size(); ++i) {
+  while(i < bigger.size()) {
     result.push_back(bigger[i]);
+    ++i;
   }
+  return result;
 }
-BigInt &BigInt::operator+=(const BigInt &toAdd) {
-  if((this->isPositive_ && !toAdd.isPositive_) ||
-     (!this->isPositive_ && toAdd.isPositive_)) {
-    BigInt toAddAbsolute(toAdd);
-    toAddAbsolute.isPositive_ = true;
-    if((*this) > toAddAbsolute) {
-      vector<ull> temp;
-      difference(fullInteger_, toAdd.fullInteger_, temp);
-      fullInteger_ = std::move(temp);
-    } else {
-      vector<ull> temp;
-      difference(toAdd.fullInteger_, fullInteger_, temp);
-      fullInteger_ = std::move(temp);
-      isPositive_ = !isPositive_;
-    }
+BigInt &BigInt::operator-=(const BigInt &toAdd) {
+  if(this->isPositive_ != toAdd.isPositive_) {
+    this->fullInteger_ = add(fullInteger_, toAdd.fullInteger_);
   } else {
-    vector<ull> additionResult;
-    add(fullInteger_, toAdd.fullInteger_, additionResult);
-    fullInteger_ = std::move(additionResult);
-
-    if(!isPositive_ && !toAdd.isPositive_) {
-      isPositive_ = false;
+    if(fullInteger_ == toAdd.fullInteger_) {
+      fullInteger_ = {0};
+      this->isPositive_ = true;
+      return *this;
+    }
+    const bool &firstIsBigger = firstIsBiggerThanSecond(fullInteger_, toAdd.fullInteger_);
+    const BigInt &bigger = firstIsBigger ? *this : toAdd;
+    const BigInt &smaller = firstIsBigger ? toAdd : *this;
+    this->fullInteger_ = difference(bigger.fullInteger_, smaller.fullInteger_);
+    if(!firstIsBigger) {
+      this->isPositive_ = !this->isPositive_;
     }
   }
   return *this;
 }
-BigInt operator+(BigInt lhs, const BigInt &rhs) // otherwise, both parameters may be const references
-{
+
+BigInt &BigInt::operator+=(const BigInt &toAdd) {
+  if(this->isPositive_ == toAdd.isPositive_) {
+    fullInteger_ = add(fullInteger_, toAdd.fullInteger_);
+  } else {
+    if(fullInteger_ == toAdd.fullInteger_) {
+      fullInteger_ = {0};
+      this->isPositive_ = true;
+      return *this;
+    }
+    const bool &firstIsBigger = firstIsBiggerThanSecond(fullInteger_, toAdd.fullInteger_);
+    const BigInt &bigger = firstIsBigger ? *this : toAdd;
+    const BigInt &smaller = firstIsBigger ? toAdd : *this;
+    this->fullInteger_ = difference(bigger.fullInteger_, smaller.fullInteger_);
+    if(!firstIsBigger) {
+      this->isPositive_ = !this->isPositive_;
+    }
+  }
+  return *this;
+}
+
+BigInt operator-(BigInt lhs, const BigInt &rhs) {
+  lhs -= rhs;
+  return lhs;
+}
+BigInt operator+(BigInt lhs, const BigInt &rhs) {
   lhs += rhs; // reuse compound assignment
   return lhs; // return the result by value (uses move constructor)
 }
@@ -236,9 +249,6 @@ std::string BigInt::toString() const {
 }
 
 bool operator==(const BigInt &int1, const BigInt &int2) {
-  if(int1.fullInteger_.empty() && int2.fullInteger_.empty()) {
-    return true;
-  }
   if(int1.fullInteger_.size() != int2.fullInteger_.size()) {
     return false;
   }

@@ -12,12 +12,12 @@
 #ifndef BIGINT2_BIGINT_H
 #define BIGINT2_BIGINT_H
 
-#include <vector>
+#include "safeCPP/scpp_vector.hpp"
 #include <iostream>
 #include <cassert>
 #include <string>
 
-using std::vector;
+using scpp::vector;
 using std::size_t;
 using std::string;
 using std::cout;
@@ -40,6 +40,10 @@ private:
 
   ull stringToUll(const string s);
 
+  vector<ull> difference(vector<ull> num1, const vector<ull> &num2) const;
+  vector<ull> add(const vector<ull> &num1, const vector<ull> &num2) const;
+  bool firstIsBiggerThanSecond(const vector<ull> &num1, const vector<ull> &num2) const;
+
 
 public:
 
@@ -49,6 +53,8 @@ public:
   inline bool isPositive() const {
     return isPositive_;
   }
+
+
   //constructors
   inline BigInt(const string &s) {
     if(s.empty()) {
@@ -122,15 +128,12 @@ public:
   bool operator<=(const BigInt &int2) const;
 
 
-  void difference(vector<ull> num1, const vector<ull> &num2, vector<ull> &result) const;
-  void add(const vector<ull> &num1, const vector<ull> &num2, vector<ull> &result) const;
 
 
   //functions
   BigInt &operator+=(const BigInt &toAdd);
-  friend BigInt operator+(BigInt lhs, const BigInt &rhs);
-
   BigInt &operator-=(const BigInt &toSubtract);
+  friend BigInt operator+(BigInt lhs, const BigInt &rhs);
   friend BigInt operator-(BigInt lhs, const BigInt &rhs);
 
   BigInt &operator++();
@@ -143,18 +146,14 @@ public:
 
 }; //class BigInt
 
-//template<typename T, typename>
-//BigInt::BigInt(T baseInteger) {
-//  if(baseInteger < ((T) 0)) {
-//    isPositive_ = false;
-//    fullInteger_.push_back((ull) (baseInteger * -1));
-//  } else {
-//    fullInteger_.push_back(baseInteger);
-//  }
-//}
+
 
 //To pringt a bigInt object (toString)
-inline std::ostream &operator<<(std::ostream &out, BigInt &integer) {
+inline std::ostream &operator<<(std::ostream &out, const BigInt &integer) {
+  out << integer.toString();
+  return out;
+}
+inline std::ostream &operator<<(std::ostream &out, BigInt &&integer) {
   out << integer.toString();
   return out;
 }
