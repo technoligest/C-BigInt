@@ -1,5 +1,5 @@
 
-def IntToVector(num):
+def intToVector(num):
 
   result = []
   while num>0:
@@ -9,7 +9,7 @@ def IntToVector(num):
 
 
 
-def VectorToInt(num):
+def vectorToInt(num):
   result = 0
   for numSection,sectionPostion in zip(num,range(len(num))):
     for exponent in range(63,-1,-1):
@@ -17,3 +17,6 @@ def VectorToInt(num):
         result+=2**(exponent+64*sectionPostion)
         numSection-=2**exponent
   return result
+
+
+print(intToVector(123432542352524323892589243))

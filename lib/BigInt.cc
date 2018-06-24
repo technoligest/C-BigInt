@@ -123,25 +123,6 @@ vector<ull> BigInt::add(const vector<ull> &num1, const vector<ull> &num2) const 
   }
   return result;
 }
-BigInt &BigInt::operator-=(const BigInt &toAdd) {
-  if(this->isPositive_ != toAdd.isPositive_) {
-    this->fullInteger_ = add(fullInteger_, toAdd.fullInteger_);
-  } else {
-    if(fullInteger_ == toAdd.fullInteger_) {
-      fullInteger_ = {0};
-      this->isPositive_ = true;
-      return *this;
-    }
-    const bool &firstIsBigger = firstIsBiggerThanSecond(fullInteger_, toAdd.fullInteger_);
-    const BigInt &bigger = firstIsBigger ? *this : toAdd;
-    const BigInt &smaller = firstIsBigger ? toAdd : *this;
-    this->fullInteger_ = difference(bigger.fullInteger_, smaller.fullInteger_);
-    if(!firstIsBigger) {
-      this->isPositive_ = !this->isPositive_;
-    }
-  }
-  return *this;
-}
 
 BigInt &BigInt::operator+=(const BigInt &toAdd) {
   if(this->isPositive_ == toAdd.isPositive_) {
@@ -163,14 +144,58 @@ BigInt &BigInt::operator+=(const BigInt &toAdd) {
   return *this;
 }
 
-BigInt operator-(BigInt lhs, const BigInt &rhs) {
-  lhs -= rhs;
-  return lhs;
+BigInt &BigInt::operator-=(const BigInt &toAdd) {
+  if(this->isPositive_ != toAdd.isPositive_) {
+    this->fullInteger_ = add(fullInteger_, toAdd.fullInteger_);
+  } else {
+    if(fullInteger_ == toAdd.fullInteger_) {
+      fullInteger_ = {0};
+      this->isPositive_ = true;
+      return *this;
+    }
+    const bool &firstIsBigger = firstIsBiggerThanSecond(fullInteger_, toAdd.fullInteger_);
+    const BigInt &bigger = firstIsBigger ? *this : toAdd;
+    const BigInt &smaller = firstIsBigger ? toAdd : *this;
+    this->fullInteger_ = difference(bigger.fullInteger_, smaller.fullInteger_);
+    if(!firstIsBigger) {
+      this->isPositive_ = !this->isPositive_;
+    }
+  }
+  return *this;
 }
+
+BigInt &BigInt::operator*=(const bigint::BigInt &toMultiply) {
+  if(!toMultiply.isPositive_) {
+    isPositive_ = !isPositive_;
+  }
+  return *this;
+}
+
+BigInt &BigInt::operator/=(const bigint::BigInt &toDivide) {
+  if(!toDivide.isPositive_) {
+    isPositive_ = !isPositive_;
+  }
+  return *this;
+}
+
+
 BigInt operator+(BigInt lhs, const BigInt &rhs) {
   lhs += rhs; // reuse compound assignment
   return lhs; // return the result by value (uses move constructor)
 }
+BigInt operator-(BigInt lhs, const BigInt &rhs) {
+  lhs -= rhs;
+  return lhs;
+}
+BigInt operator*(BigInt lhs, const BigInt &rhs) {
+  lhs *= rhs;
+  return lhs;
+}
+BigInt operator/(BigInt lhs, const BigInt &rhs) {
+  lhs /= rhs;
+  return lhs;
+}
+
 BigInt &BigInt::operator++() {
   (*this) += 1;
   return *this;
@@ -193,6 +218,8 @@ BigInt BigInt::operator--(int) {
   //(*this) -= 1;
   return tmp;
 }
+
+
 
 //Using the double dabble algorithm, based on Wikipedia C code
 std::string BigInt::toString() const {

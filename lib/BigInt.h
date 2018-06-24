@@ -120,9 +120,9 @@ public:
     return !(int1 == int2);
   }
 
+
 //comparison
   bool operator>(const BigInt &int2) const;
-
   bool operator<(const BigInt &int2) const;
   bool operator>=(const BigInt &int2) const;
   bool operator<=(const BigInt &int2) const;
@@ -131,15 +131,24 @@ public:
 
 
   //functions
+
   BigInt &operator+=(const BigInt &toAdd);
   BigInt &operator-=(const BigInt &toSubtract);
+  BigInt &operator*=(const BigInt &toMultiply);
+  BigInt &operator/=(const BigInt &toDivide);
   friend BigInt operator+(BigInt lhs, const BigInt &rhs);
   friend BigInt operator-(BigInt lhs, const BigInt &rhs);
+  friend BigInt operator*(BigInt lhs, const BigInt &rhs);
+  friend BigInt operator/(BigInt lhs, const BigInt &rhs);
+
 
   BigInt &operator++();
   BigInt operator++(int);
   BigInt &operator--();
   BigInt operator--(int);
+
+  BigInt operator<<(int shiftBy);
+  BigInt operator>>(int shiftBy);
 
   std::string toString() const;
 
