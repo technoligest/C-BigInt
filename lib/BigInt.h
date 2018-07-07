@@ -17,7 +17,7 @@
 #include <cassert>
 #include <string>
 
-using scpp::vector;
+using std::vector;
 using std::size_t;
 using std::string;
 using std::cout;
@@ -37,32 +37,33 @@ private:
 
   string divByTwo(const string &s);
   string convertToBinary(string num);
-
   ull stringToUll(const string s);
 
   vector<ull> difference(vector<ull> num1, const vector<ull> &num2) const;
   vector<ull> add(const vector<ull> &num1, const vector<ull> &num2) const;
+  vector<ull> multiply(const vector<ull> num1, const vector<ull> &num2) const;
+  vector<ull> divide(const vector<ull> num1, const vector<ull> &num2) const;
   bool firstIsBiggerThanSecond(const vector<ull> &num1, const vector<ull> &num2) const;
 
 
 public:
 
-  inline vector<ull> fullInteger() const {
+  inline vector<ull> fullInteger() const{
     return fullInteger_;
   }
-  inline bool isPositive() const {
+  inline bool isPositive() const{
     return isPositive_;
   }
 
 
   //constructors
-  inline BigInt(const string &s) {
-    if(s.empty()) {
+  inline explicit BigInt(const string &s){
+    if(s.empty()){
       fullInteger_.push_back(0);
       return;
     }
     string bin;
-    switch(s[0]) {
+    switch(s[0]){
       case '-':
         isPositive_ = false;
       case '+':
@@ -73,84 +74,73 @@ public:
     }
 
     int i;
-    for(i = bin.size(); i - (int) (sizeof(ull) * 8) >= 0; i -= (sizeof(ull) * 8)) {
+    static int ullSizeInBit = (sizeof(ull) * 8);
+    for(i = bin.size(); i >= ullSizeInBit; i -= ullSizeInBit){
       fullInteger_.push_back(stringToUll(string(bin.begin() + (i - sizeof(ull) * 8), bin.begin() + i)));
     }
-    if(i != 0) {
+    if(i != 0){
       fullInteger_.push_back(stringToUll(string(bin.begin(), bin.begin() + i)));
     }
 
     //Removing padding zeros
-    for(int i = fullInteger_.size() - 1; i > 0; --i) {
-      if(fullInteger_[i] == 0) {
-        fullInteger_.pop_back();
-      } else {
-        return;
-      }
+    for(int i = fullInteger_.size() - 1; i > 0 && fullInteger_[i] == 0; --i){
+      fullInteger_.pop_back();
     }
 
-    //checking if the number is zero
-    if(fullInteger_.size() == 1 && fullInteger_[0] == 0) {
+    //If the number is zero it is positive no matter what the input is.
+    if(fullInteger_.size() == 1 && fullInteger_[0] == 0){
       isPositive_ = true;
     }
   }
+
   //Constructor that takes any numerical type as input.
   template<
       typename T,
       typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
-  BigInt(T baseInteger) {
-    if(baseInteger < ((T) 0)) {
+  BigInt(T baseInteger){
+    if(baseInteger < ((T) 0)){
       isPositive_ = false;
       fullInteger_.push_back((ull) (baseInteger * -1));
-    } else {
+    } else{
       fullInteger_.push_back(baseInteger);
     }
   }
 
-  BigInt(const BigInt &baseInteger) : fullInteger_(baseInteger.fullInteger_), isPositive_(baseInteger.isPositive_) {};
+  BigInt(const BigInt &baseInteger) : fullInteger_(baseInteger.fullInteger_), isPositive_(baseInteger.isPositive_){};
   BigInt(BigInt &&baseInteger) : fullInteger_(std::move(baseInteger.fullInteger_)),
-                                 isPositive_(baseInteger.isPositive_) {};
-  BigInt() { fullInteger_.push_back(0); }
+                                 isPositive_(baseInteger.isPositive_){};
+  BigInt(){ fullInteger_.push_back(0); }
 
-/*
- * Equality and inequality comparison operators
- */
-  friend bool operator==(const BigInt &int1, const BigInt &int2);
-  friend bool operator!=(const BigInt &int1, const BigInt &int2) {
-    return !(int1 == int2);
-  }
+  std::string toString() const;
 
-
-//comparison
+  //Equality and inequality comparison operators
+  bool operator==(const BigInt &int2) const;
+  bool operator!=(const BigInt &int2) const;
   bool operator>(const BigInt &int2) const;
-  bool operator<(const BigInt &int2) const;
-  bool operator>=(const BigInt &int2) const;
-  bool operator<=(const BigInt &int2) const;
+  bool operator<(const BigInt &otherInteger) const;
+  bool operator>=(const BigInt &otherInteger) const;
+  bool operator<=(const BigInt &otherInteger) const;
 
-
-
-
-  //functions
-
-  BigInt &operator+=(const BigInt &toAdd);
-  BigInt &operator-=(const BigInt &toSubtract);
+  BigInt &operator+=(const BigInt &NumberToAdd);
+  BigInt &operator-=(const BigInt &numberToSubtract);
   BigInt &operator*=(const BigInt &toMultiply);
   BigInt &operator/=(const BigInt &toDivide);
-  friend BigInt operator+(BigInt lhs, const BigInt &rhs);
-  friend BigInt operator-(BigInt lhs, const BigInt &rhs);
-  friend BigInt operator*(BigInt lhs, const BigInt &rhs);
-  friend BigInt operator/(BigInt lhs, const BigInt &rhs);
-
+  BigInt &operator<<=(BigInt shiftBy);
+  BigInt &operator>>=(BigInt shiftBy);
 
   BigInt &operator++();
   BigInt operator++(int);
   BigInt &operator--();
   BigInt operator--(int);
 
-  BigInt operator<<(int shiftBy);
-  BigInt operator>>(int shiftBy);
+  friend BigInt operator+(BigInt lhs, const BigInt &rhs);
+  friend BigInt operator-(BigInt lhs, const BigInt &rhs);
+  friend BigInt operator*(BigInt lhs, const BigInt &rhs);
+  friend BigInt operator/(BigInt lhs, const BigInt &rhs);
+  friend BigInt operator<<(BigInt lhs, BigInt shiftBy);
+  friend BigInt operator>>(BigInt lhs, BigInt shiftBy);
 
-  std::string toString() const;
+  BigInt &operator=(const BigInt &b) = default;
 
 
 }; //class BigInt
@@ -158,11 +148,11 @@ public:
 
 
 //To pringt a bigInt object (toString)
-inline std::ostream &operator<<(std::ostream &out, const BigInt &integer) {
+inline std::ostream &operator<<(std::ostream &out, const BigInt &integer){
   out << integer.toString();
   return out;
 }
-inline std::ostream &operator<<(std::ostream &out, BigInt &&integer) {
+inline std::ostream &operator<<(std::ostream &out, BigInt &&integer){
   out << integer.toString();
   return out;
 }
