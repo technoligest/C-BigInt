@@ -3,6 +3,8 @@
 ## Representation
 Each number is represented as a vector of unsigned long longs in base 18446744073709551615. Negative numbers are distinguished by having an "isPositive_" boolean in each BigInt object. 
 
+## Usage
+Include the BigInt.h and BigInt.cc files in your project and compile with -std=c++14 or above.
 
 ## bit-Shifting
 Shifting positive numbers shifts the bit value of the number by shift amount provided.
