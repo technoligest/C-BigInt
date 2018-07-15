@@ -13,6 +13,7 @@
 #define BIGINT2_BIGINT_H
 
 #include "../safeCPP/scpp_vector.hpp"
+#include "Exception.h"
 #include <iostream>
 #include <cassert>
 #include <string>

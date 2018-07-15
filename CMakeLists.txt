@@ -11,7 +11,7 @@ set(BigInt  ${safeCPP} lib/BigInt.cc lib/BigInt.h)
 file(GLOB Testings "${PROJECT_SOURCE_DIR}/tests/*.hpp" "${PROJECT_SOURCE_DIR}/tests/*.cc")
 #set(Testings tests/catch.hpp tests/mainTest.cc tests/testOperations.cc)
 
-add_executable(BigInt2 lib/main.cpp ${BigInt})
-add_executable(Tests ${Testings} ${BigInt} )
+add_executable(BigInt2 lib/main.cpp ${BigInt} lib/Exception.cc lib/Exception.h)
+add_executable(Tests ${Testings} ${BigInt} lib/Exception.cc lib/Exception.h)
 target_compile_options(Tests PUBLIC "-Dprivate=public")
 

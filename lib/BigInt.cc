@@ -32,7 +32,7 @@ bool BigInt::operator>(const BigInt &int2) const {
   } else if(!this->isPositive_ && !int2.isPositive_) {
     return firstIsBiggerThanSecond(int2.fullInteger_, this->fullInteger_);
   }
-  assert(false);
+  throw Exception(Exception::ErrorTypes::INTERNAL_ERROR,__LINE__,__FILE__,"This part of the code should never be reached.");
   return true;
 }
 bool BigInt::operator<(const BigInt &int2) const {
@@ -51,7 +51,10 @@ bool BigInt::operator<=(const BigInt &int2) const {
 //TODO change this implementation so that the first does not have to be bigger than the second one.
 
 vector<ull> BigInt::difference(vector<ull> num1, const vector<ull> &num2) const {
-  assert(num1 >= num2);
+  if(num1<num2){
+    throw Exception(Exception::ErrorTypes::INTERNAL_ERROR,__LINE__,__FILE__,"Difference cannot be found where the first number is smaller than the second number.");
+  }
+
   vector<ull> result;
 
   int i;
@@ -196,7 +199,9 @@ BigInt BigInt::operator--(int) {
 
 //Using the double dabble algorithm, based on Wikipedia C code
 std::string BigInt::toString() const {
-  assert(!fullInteger_.empty());
+  if(fullInteger_.empty()){
+    throw Exception(Exception::INTERNAL_ERROR, __LINE__, __FILE__, "The fullInteger array should not be empty.");
+  }
   if(fullInteger_.size() == 1) {
     if(isPositive_) {
       return std::to_string(fullInteger_[0]);
@@ -269,7 +274,9 @@ string BigInt::divByTwo(const string &s) {
   string newString("");
   int toAdd = 0;
   for(const char &ch:s) {
-    assert(std::isdigit(ch));
+    if(!std::isdigit(ch)){
+      throw Exception(Exception::USER_ERROR,__LINE__,__FILE__,"The input integer cannot have a non-integer character.");
+    }
     newString += std::to_string((toDigit(ch) / 2 + toAdd));
     toAdd = ((int) ch) % 2 == 1 ? 5 : 0;
   }
@@ -279,6 +286,11 @@ string BigInt::divByTwo(const string &s) {
   return newString;
 }
 string BigInt::convertToBinary(string num) {
+  for(const char& ch:num){
+    if(!std::isdigit(ch)){
+      throw Exception(Exception::USER_ERROR,__LINE__,__FILE__,"The input integer cannot have a non-integer character.");
+    }
+  }
   if(num == "0") {
     return string("0");
   } else {
@@ -293,7 +305,9 @@ string BigInt::convertToBinary(string num) {
 ull BigInt::stringToUll(const string s) {
   ull result = 0ULL;
   for(int i = 0; i < s.size(); ++i) {
-    assert(s[i] == '1' || s[i] == '0');
+    if(s[i] !='1' && s[i]!='0'){
+      throw Exception(Exception::USER_ERROR,__LINE__,__FILE__,"Cannot convert string to unsigned long long when it contains a non-binary charcater. Could be internal or usage error.");
+    }
     result <<= 1;
     if(s[i] == '1') {
       result |= 1;
