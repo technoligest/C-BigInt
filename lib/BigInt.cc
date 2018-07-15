@@ -56,7 +56,6 @@ bool BigInt::operator<=(const BigInt &otherInteger) const{
 vector<ull> BigInt::difference(vector<ull> num1, const vector<ull> &num2) const{
   assert(firstIsBiggerThanSecond(num1, num2) || num1 == num2);
   vector<ull> result;
-
   int i;
   for(i = 0; i < num2.size(); ++i){
     if(num1[i] >= num2[i]){
@@ -376,6 +375,11 @@ BigInt &BigInt::operator<<=(BigInt shiftBy){
   fullInteger_[0] <<= finalShiftAmount;
   return (*this);
 }
+
+/*
+Bitshifiting to the right by a given amount.
+Param shiftBy has to be positive
+*/
 BigInt &BigInt::operator>>=(BigInt shiftBy){
   assert(shiftBy.isPositive_);
   static BigInt zero;

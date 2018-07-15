@@ -13,13 +13,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee6dd156-0180-4891-a2e1-c00bc32bd0db" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/BigInt.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/BigInt.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/BigInt.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/BigInt.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/scriptHelpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/scriptHelpers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/testOperations.cc" beforeDir="false" afterPath="$PROJECT_DIR$/tests/testOperations.cc" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,13 +27,13 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.3761302">
+    <splitter split-orientation="horizontal" split-proportion="0.35982707">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="BigInt.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/lib/BigInt.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="117">
+                <state relative-caret-position="1620">
                   <caret line="108" selection-start-line="108" selection-end-line="108" />
                 </state>
               </provider>
@@ -46,7 +42,7 @@
           <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="300">
+                <state relative-caret-position="240">
                   <caret line="16" selection-start-line="16" selection-end-line="16" />
                 </state>
               </provider>
@@ -55,7 +51,7 @@
           <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/lib/main.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="264">
+                <state relative-caret-position="2070">
                   <caret line="58" column="42" selection-start-line="58" selection-start-column="42" selection-end-line="58" selection-end-column="42" />
                   <folding>
                     <marker date="1530993608260" expanded="true" signature="272:279" ph="..." />
@@ -67,8 +63,8 @@
           <file leaf-file-name="testOperations.cc" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/tests/testOperations.cc">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="804">
-                  <caret line="546" column="10" selection-start-line="546" selection-start-column="10" selection-end-line="546" selection-end-column="10" />
+                <state relative-caret-position="526">
+                  <caret line="533" column="41" selection-start-line="533" selection-start-column="41" selection-end-line="533" selection-end-column="41" />
                   <folding>
                     <element signature="e#68#88#0" expanded="true" />
                   </folding>
@@ -101,7 +97,7 @@
           <file leaf-file-name="BigInt.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/lib/BigInt.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="122">
+                <state relative-caret-position="1665">
                   <caret line="111" selection-start-line="111" selection-end-line="111" />
                 </state>
               </provider>
@@ -110,8 +106,8 @@
           <file leaf-file-name="BigInt.cc" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/lib/BigInt.cc">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="294">
-                  <caret line="350" selection-start-line="350" selection-end-line="350" />
+                <state relative-caret-position="5235">
+                  <caret line="349" selection-start-line="349" selection-end-line="349" />
                 </state>
               </provider>
             </entry>
@@ -120,8 +116,8 @@
             <entry file="file://$PROJECT_DIR$/README.md">
               <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
                 <state split_layout="SPLIT">
-                  <first_editor relative-caret-position="165">
-                    <caret line="6" column="94" selection-start-line="6" selection-start-column="94" selection-end-line="6" selection-end-column="94" />
+                  <first_editor relative-caret-position="60">
+                    <caret line="3" column="126" selection-start-line="3" selection-start-column="126" selection-end-line="3" selection-end-column="126" />
                   </first_editor>
                   <second_editor />
                 </state>
@@ -235,10 +231,10 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="22" />
-    <option name="width" value="1680" />
-    <option name="height" value="1028" />
+    <option name="width" value="2560" />
+    <option name="height" value="1045" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -246,7 +242,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -268,6 +263,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -277,7 +273,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C/C++" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -373,7 +369,11 @@
       <workItem from="1529954077041" duration="41000" />
       <workItem from="1529987134884" duration="153000" />
       <workItem from="1530217595472" duration="5609000" />
-      <workItem from="1530986702887" duration="4046000" />
+      <workItem from="1530986702887" duration="4460000" />
+      <workItem from="1531373575610" duration="48000" />
+      <workItem from="1531373639350" duration="423000" />
+      <workItem from="1531680834560" duration="12000" />
+      <workItem from="1531680873967" duration="142000" />
     </task>
     <servers />
   </component>
@@ -410,7 +410,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="132480000" />
+    <option name="totallyTimeSpent" value="133519000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -422,17 +422,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1680" height="1028" extended-state="6" />
+    <frame x="0" y="22" width="2560" height="1045" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.103676915" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.053958252" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32896176" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32896176" />
       <window_info anchor="bottom" id="CMake" order="7" weight="0.32896176" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32896176" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.4338798" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.36174864" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32403433" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.52677596" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -440,6 +439,7 @@
       <window_info anchor="bottom" id="Inspection Results" order="8" weight="0.32896176" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32896176" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32896176" />
@@ -762,28 +762,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/BigInt.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
+        <state relative-caret-position="1665">
           <caret line="111" selection-start-line="111" selection-end-line="111" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
+        <state relative-caret-position="240">
           <caret line="16" selection-start-line="16" selection-end-line="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/BigInt.cc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="350" selection-start-line="350" selection-end-line="350" />
+        <state relative-caret-position="5235">
+          <caret line="349" selection-start-line="349" selection-end-line="349" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
+        <state relative-caret-position="2070">
           <caret line="58" column="42" selection-start-line="58" selection-start-column="42" selection-end-line="58" selection-end-column="42" />
           <folding>
             <marker date="1530993608260" expanded="true" signature="272:279" ph="..." />
@@ -791,23 +791,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/testOperations.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="804">
-          <caret line="546" column="10" selection-start-line="546" selection-start-column="10" selection-end-line="546" selection-end-column="10" />
-          <folding>
-            <element signature="e#68#88#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="165">
-            <caret line="6" column="94" selection-start-line="6" selection-start-column="94" selection-end-line="6" selection-end-column="94" />
+          <first_editor relative-caret-position="60">
+            <caret line="3" column="126" selection-start-line="3" selection-start-column="126" selection-end-line="3" selection-end-column="126" />
           </first_editor>
           <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/testOperations.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="526">
+          <caret line="533" column="41" selection-start-line="533" selection-start-column="41" selection-end-line="533" selection-end-column="41" />
+          <folding>
+            <element signature="e#68#88#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
