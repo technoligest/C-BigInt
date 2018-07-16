@@ -35,14 +35,15 @@ private:
   bool isPositive_ = true;
 
 
-  string divByTwo(const string &s);
-  string convertToBinary(string num);
+  string divByTwo(const string &s) const;
+  string convertToBinary(string num) const;
 
-  ull stringToUll(const string s);
+  ull stringToUll(const string s)const;
 
   vector<ull> difference(vector<ull> num1, const vector<ull> &num2) const;
   vector<ull> add(const vector<ull> &num1, const vector<ull> &num2) const;
   bool firstIsBiggerThanSecond(const vector<ull> &num1, const vector<ull> &num2) const;
+  string findBinaryRepresentation(const string &num) const;
 
 
 public:
@@ -56,7 +57,7 @@ public:
 
 
   //constructors
-  inline BigInt(const string &s);
+  BigInt(const string &s);
 
   //Constructor that takes any numerical type as input.
   template<

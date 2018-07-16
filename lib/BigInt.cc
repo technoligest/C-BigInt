@@ -262,14 +262,15 @@ bool operator==(const BigInt &int1, const BigInt &int2){
   }
   return true;
 }
-string BigInt::divByTwo(const string &s){
+string BigInt::divByTwo(const string &s) const{
   if(s == "0" || s == "1"){
     return "0";
   }
   string newString("");
   int toAdd = 0;
   for(const char &ch:s) {
-    assert(std::isdigit(ch));ring((toDigit(ch) / 2 + toAdd));
+    assert(std::isdigit(ch));
+    newString += std::to_string((toDigit(ch) / 2 + toAdd));
     toAdd = ((int) ch) % 2 == 1 ? 5 : 0;
   }
   if(newString[0] == '0'){
@@ -277,7 +278,7 @@ string BigInt::divByTwo(const string &s){
   }
   return newString;
 }
-string BigInt::convertToBinary(string num) {
+string BigInt::convertToBinary(string num) const{
   if(num == "0") {
     return string("0");
   } else{
@@ -289,7 +290,7 @@ string BigInt::convertToBinary(string num) {
     return result;
   }
 }
-ull BigInt::stringToUll(const string s){
+ull BigInt::stringToUll(const string s) const{
   ull result = 0ULL;
   for(int i = 0; i < s.size(); ++i) {
     assert(s[i] == '1' || s[i] == '0');
@@ -301,6 +302,17 @@ ull BigInt::stringToUll(const string s){
   }
   return result;
 }
+string BigInt::findBinaryRepresentation(const string& num)const {
+  if(num.size()>1 && num[1]=='b'){
+    if(num.size()>2){
+      return string(num.begin() + 1, num.end());
+    }
+    else{
+      assert(false);
+    }
+  }
+  return convertToBinary(num);
+}
 BigInt::BigInt(const string &s){
   if(s.empty()){
     fullInteger_.push_back(0);
@@ -311,12 +323,11 @@ BigInt::BigInt(const string &s){
     case '-':
       isPositive_ = false;
     case '+':
-      bin = convertToBinary(string(s.begin() + 1, s.end()));
+      bin = findBinaryRepresentation(string(s.begin()+1,s.end()));
       break;
-    case '0':
-      if(s.size()>1 && )
     default:
-      bin = convertToBinary(s);
+      bin = findBinaryRepresentation(s);
+      //bin = convertToBinary(s);
   }
 
   int i;
