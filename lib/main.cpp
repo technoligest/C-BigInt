@@ -1,8 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <bitset>
+#include "Exception.h"
 
 #define _DEBUG
+
 #include "BigInt.h"
 
 using std::cout;
