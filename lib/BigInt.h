@@ -47,76 +47,40 @@ private:
 
 public:
 
-  inline vector<ull> fullInteger() const {
+  inline vector<ull> fullInteger() const{
     return fullInteger_;
   }
-  inline bool isPositive() const {
+  inline bool isPositive() const{
     return isPositive_;
   }
 
 
   //constructors
-  inline BigInt(const string &s) {
-    if(s.empty()) {
-      fullInteger_.push_back(0);
-      return;
-    }
-    string bin;
-    switch(s[0]) {
-      case '-':
-        isPositive_ = false;
-      case '+':
-        bin = convertToBinary(string(s.begin() + 1, s.end()));
-        break;
-      default:
-        bin = convertToBinary(s);
-    }
+  inline BigInt(const string &s);
 
-    int i;
-    for(i = bin.size(); i - (int) (sizeof(ull) * 8) >= 0; i -= (sizeof(ull) * 8)) {
-      fullInteger_.push_back(stringToUll(string(bin.begin() + (i - sizeof(ull) * 8), bin.begin() + i)));
-    }
-    if(i != 0) {
-      fullInteger_.push_back(stringToUll(string(bin.begin(), bin.begin() + i)));
-    }
-
-    //Removing padding zeros
-    for(int i = fullInteger_.size() - 1; i > 0; --i) {
-      if(fullInteger_[i] == 0) {
-        fullInteger_.pop_back();
-      } else {
-        return;
-      }
-    }
-
-    //checking if the number is zero
-    if(fullInteger_.size() == 1 && fullInteger_[0] == 0) {
-      isPositive_ = true;
-    }
-  }
   //Constructor that takes any numerical type as input.
   template<
       typename T,
       typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
-  BigInt(T baseInteger) {
-    if(baseInteger < ((T) 0)) {
+  BigInt(T baseInteger){
+    if(baseInteger < ((T) 0)){
       isPositive_ = false;
       fullInteger_.push_back((ull) (baseInteger * -1));
-    } else {
+    } else{
       fullInteger_.push_back(baseInteger);
     }
   }
 
-  BigInt(const BigInt &baseInteger) : fullInteger_(baseInteger.fullInteger_), isPositive_(baseInteger.isPositive_) {};
+  BigInt(const BigInt &baseInteger) : fullInteger_(baseInteger.fullInteger_), isPositive_(baseInteger.isPositive_){};
   BigInt(BigInt &&baseInteger) : fullInteger_(std::move(baseInteger.fullInteger_)),
-                                 isPositive_(baseInteger.isPositive_) {};
-  BigInt() { fullInteger_.push_back(0); }
+                                 isPositive_(baseInteger.isPositive_){};
+  BigInt(){ fullInteger_.push_back(0); }
 
 /*
  * Equality and inequality comparison operators
  */
   friend bool operator==(const BigInt &int1, const BigInt &int2);
-  friend bool operator!=(const BigInt &int1, const BigInt &int2) {
+  friend bool operator!=(const BigInt &int1, const BigInt &int2){
     return !(int1 == int2);
   }
 
@@ -126,8 +90,6 @@ public:
   bool operator<(const BigInt &int2) const;
   bool operator>=(const BigInt &int2) const;
   bool operator<=(const BigInt &int2) const;
-
-
 
 
   //functions
@@ -149,11 +111,11 @@ public:
 
 
 //To pringt a bigInt object (toString)
-inline std::ostream &operator<<(std::ostream &out, const BigInt &integer) {
+inline std::ostream &operator<<(std::ostream &out, const BigInt &integer){
   out << integer.toString();
   return out;
 }
-inline std::ostream &operator<<(std::ostream &out, BigInt &&integer) {
+inline std::ostream &operator<<(std::ostream &out, BigInt &&integer){
   out << integer.toString();
   return out;
 }
