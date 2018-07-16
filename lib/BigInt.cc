@@ -180,20 +180,6 @@ BigInt &BigInt::operator-=(const BigInt &numberToSubtract){
   return *this;
 }
 
-BigInt &BigInt::operator*=(const bigint::BigInt &toMultiply){
-  if(!toMultiply.isPositive_){
-    isPositive_ = !isPositive_;
-  }
-  return *this;
-}
-
-BigInt &BigInt::operator/=(const bigint::BigInt &toDivide){
-  if(!toDivide.isPositive_){
-    isPositive_ = !isPositive_;
-  }
-  return *this;
-}
-
 
 BigInt operator+(BigInt lhs, const BigInt &rhs){
   lhs += rhs; // reuse compound assignment
@@ -203,15 +189,6 @@ BigInt operator-(BigInt lhs, const BigInt &rhs){
   lhs -= rhs;
   return lhs;
 }
-BigInt operator*(BigInt lhs, const BigInt &rhs){
-  lhs *= rhs;
-  return lhs;
-}
-BigInt operator/(BigInt lhs, const BigInt &rhs){
-  lhs /= rhs;
-  return lhs;
-}
-
 BigInt &BigInt::operator++(){
   (*this) += 1;
   return *this;

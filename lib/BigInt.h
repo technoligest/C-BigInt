@@ -135,8 +135,6 @@ public:
 
   friend BigInt operator+(BigInt lhs, const BigInt &rhs);
   friend BigInt operator-(BigInt lhs, const BigInt &rhs);
-  friend BigInt operator*(BigInt lhs, const BigInt &rhs);
-  friend BigInt operator/(BigInt lhs, const BigInt &rhs);
   friend BigInt operator<<(BigInt lhs, BigInt shiftBy);
   friend BigInt operator>>(BigInt lhs, BigInt shiftBy);
 
