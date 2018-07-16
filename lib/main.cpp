@@ -9,21 +9,17 @@
 
 using std::cout;
 using std::endl;
+using std::bitset;
 using bigint::BigInt;
 typedef unsigned long long ull;
 #define SCPP_THROW_EXCEPTION_ON_BUG
 
-//template<typename T>
-//std::ostream &operator<<(std::ostream &stream, const vector<T> &list) {
-//  for(const auto &item:list) {
-//    stream << item << " ";
-//  }
-//  return stream;
-//}
-int main() {
-  //BigInt negativeSmall1(-50);
-  //BigInt positiveSmall1(50);
+
+int main(){
   //BigInt zero;
+  //BigInt n3("99889843194132897412378641333124453412345241");
+  //BigInt n2(64);
+  //BigInt n1("1842642372965147413376496337921321812917347049694352873101459456");
   //
   //auto result = zero - positiveSmall1;
   //zero -= positiveSmall1;
@@ -59,5 +55,8 @@ int main() {
 
   BigInt int5("1234");
 
+//46624204348859734145108038207322383020692289156180237552655052387968838795264
+//46624204348859734145108038207322383020692289156180237552655052387968838795264
+//
   return 0;
 }

@@ -18,7 +18,7 @@
 #include <cassert>
 #include <string>
 
-using scpp::vector;
+using std::vector;
 using std::size_t;
 using std::string;
 using std::cout;
@@ -39,10 +39,12 @@ private:
   string divByTwo(const string &s) const;
   string convertToBinary(string num) const;
 
-  ull stringToUll(const string s)const;
+  ull stringToUll(const string s) const;
 
   vector<ull> difference(vector<ull> num1, const vector<ull> &num2) const;
   vector<ull> add(const vector<ull> &num1, const vector<ull> &num2) const;
+  vector<ull> multiply(const vector<ull> num1, const vector<ull> &num2) const;
+  vector<ull> divide(const vector<ull> num1, const vector<ull> &num2) const;
   bool firstIsBiggerThanSecond(const vector<ull> &num1, const vector<ull> &num2) const;
   string findBinaryRepresentation(const string &num) const;
 
@@ -81,17 +83,18 @@ public:
 /*
  * Equality and inequality comparison operators
  */
-  friend bool operator==(const BigInt &int1, const BigInt &int2);
-  friend bool operator!=(const BigInt &int1, const BigInt &int2){
-    return !(int1 == int2);
-  }
+  //friend bool operator==(const BigInt &int1, const BigInt &int2);
+  //friend bool operator!=(const BigInt &int1, const BigInt &int2){
+  //  return !(int1 == int2);
+  //}
 
-//comparison
+  //Equality and inequality comparison operators
+  bool operator==(const BigInt &int2) const;
+  bool operator!=(const BigInt &int2) const;
   bool operator>(const BigInt &int2) const;
-
-  bool operator<(const BigInt &int2) const;
-  bool operator>=(const BigInt &int2) const;
-  bool operator<=(const BigInt &int2) const;
+  bool operator<(const BigInt &otherInteger) const;
+  bool operator>=(const BigInt &otherInteger) const;
+  bool operator<=(const BigInt &otherInteger) const;
 
 
   //functions
@@ -105,9 +108,14 @@ public:
   BigInt &operator--();
   BigInt operator--(int);
 
+  BigInt &operator>>=(BigInt shiftBy);
+  BigInt &operator<<=(BigInt shiftBy);
+  friend BigInt operator<<(BigInt lhs, BigInt shiftBy);
+  friend BigInt operator>>(BigInt lhs, BigInt shiftBy);
+
+  BigInt &operator=(const BigInt &b) = default;
+
   std::string toString() const;
-
-
 }; //class BigInt
 
 
