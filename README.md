@@ -1,4 +1,6 @@
 # C++ Multiple Precision Integer Library Implementation (Fully Tested)
+## Motivation
+When using Python, we do not have to worry about representation of integers or types as Python inherintly supports multi-percision arithmetic, but that is not the case with C++. Sometimes we are forced to use integers that are larger than unsigned longs which is a challenge. Most libraries I found online had bad documentation and cumbersum implementations. This library is a way to make that a little easier.
 
 ## Representation
 Each number is represented as a vector of unsigned long longs in base 18446744073709551615. Negative numbers are distinguished by having an "isPositive_" boolean in each BigInt object. 
